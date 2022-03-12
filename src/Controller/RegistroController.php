@@ -8,25 +8,23 @@ use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegistroController extends AbstractController
 {
     #[Route('/registro', name: 'registro')]
-    public function index(Request $request, EntityManagerInterface $doctrine , UserPasswordEncoderInterface $passwordEncoder)
+    public function index(Request $request, EntityManagerInterface $doctrine , UserPasswordHasherInterface $hasher)
     {
-        $user = new User();
         $form = $this->createForm(UserType::class);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
 
-            $em = $this->$doctrine->getManager();
-          
-            $user->setPassword($passwordEncoder->encodePassword($user,$form['password']->getData()));
-            $em->persist($user);
-            $em->flush();
+          $user= $form->getData();
+            $user->setPassword($hasher->hashPassword($user,$form['password']->getData()));
+            $doctrine->persist($user);
+            $doctrine->flush();
             $this->addFlash('exito','Se ha registrado exitosamente');
             return $this->redirectToRoute('registro');
         }

@@ -7,15 +7,15 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\Textarea;
-
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 class PostsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('titulo')
-            ->add('foto')
+            ->add('foto', FileType::class,['label'=>'Seleccione una imagen', 'mapped' => false,'required'=>false])
             ->add('contenido',TextareaType::class)
             ->add('Guardar',SubmitType::class)
         ;
