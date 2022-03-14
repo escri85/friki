@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DashboardController extends AbstractController
 {
-    #[Route('/dashboard', name: 'dashboard')]
+    #[Route('/', name: 'dashboard')]
     public function index(EntityManagerInterface $doctrine,Request $request): Response
     {
       

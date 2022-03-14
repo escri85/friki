@@ -1,21 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello DashboardController!{% endblock %}
-
 {% block body %}
-<h2>Listado de Posts </h2>
-    <div class="row row-cols-1 row-cols-md-2">
-        {% for post in posts %}
-            <div class="col mb-4">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{post.foto}}" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">{{post.titulo}}</h5>
-                        <p class="card-text">{{post.contenido}}</p>
-                       
+    {{ parent() }}
+{{dump(posts)}}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 cursor">
+                {% for post in posts %}
+                    <div class="d-flex bd-highlight">
+                        <div class="p-2 flex-grow-1 bd-highlight">
+                            <h3>{{post.titulo}}</h3>
+                            <div class="my-3 bg-yellow"> <i class="fa fa-user"></i><strong> Contenido {{post.contenido}}</strong></div>
+                  
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <div class="align-self-center">
+                                <img class="rounded" src="{{ asset('uploads/photos/'~post.foto) }}" width="150px">
+                            </div>
+                        </div>
                     </div>
                 </div>
-{% endfor %}
+                {% endfor %}
             </div>
+
+        </div>
+    </div>
+
+
 {% endblock %}
+
 
